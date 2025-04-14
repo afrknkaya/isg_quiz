@@ -2,6 +2,7 @@ import fitz  # PyMuPDF
 import streamlit as st
 import re
 import time
+
 @st.cache_data
 def parse_questions(pdf_path):
     doc = fitz.open(pdf_path)
@@ -35,6 +36,7 @@ def parse_questions(pdf_path):
         })
     
     return parsed
+
 @st.cache_data
 def parse_correct_answers(pdf_path):
     doc = fitz.open(pdf_path)
@@ -110,21 +112,21 @@ def main():
         index=None
     )
 
-    # Cevap kontrolü
+    # Cevap kontrolü (DÜZELTİLMİŞ KISIM)
     if selected_option and not st.session_state.answered:
-    selected_letter = selected_option[0].lower()
-    correct = correct_answers.get(soru['number'], None)
+        selected_letter = selected_option[0].lower()
+        correct = correct_answers.get(soru['number'], None)
 
-    if correct and selected_letter == correct:
-        st.success("✅ Doğru cevap!")
-        st.session_state.answered = True
-        
-        # Sadece 1 kere çalışması için kontrol ekliyoruz
-        if not st.session_state.get('auto_next'):
-            st.session_state.auto_next = True
-            if st.session_state.index < question_count - 1:
-                st.session_state.index += 1
-                st.rerun()
+        if correct and selected_letter == correct:
+            st.success("✅ Doğru cevap!")
+            st.session_state.answered = True
+            
+            # Otomatik ilerleme
+            if not st.session_state.get('auto_next'):
+                st.session_state.auto_next = True
+                if st.session_state.index < question_count - 1:
+                    st.session_state.index += 1
+                    st.rerun()
             else:
                 st.session_state.auto_next = False
 
