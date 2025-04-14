@@ -125,8 +125,8 @@ def main():
             if st.session_state.index < question_count - 1:
                 st.session_state.index += 1
                 st.rerun()
-        else:
-            st.session_state.auto_next = False
+            else:
+                st.session_state.auto_next = False
 
     # İlerleme çubuğu
     progress = st.progress((st.session_state.index + 1)/question_count)
