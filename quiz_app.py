@@ -118,7 +118,7 @@ def main():
         if correct and selected_letter == correct:
             st.success("✅ Doğru cevap!")
             st.session_state.answered = True
-            time.sleep(0.5)
+            #time.sleep(0.5)
             if st.session_state.index < question_count - 1:
                 st.session_state.index += 1
                 st.session_state.answered = False
