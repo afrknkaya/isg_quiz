@@ -113,22 +113,24 @@ def main():
     )
 
     # Cevap kontrolü (DÜZELTİLMİŞ KISIM)
+    # Cevap kontrolü kısmını şu şekilde değiştirin:
     if selected_option and not st.session_state.answered:
         selected_letter = selected_option[0].lower()
         correct = correct_answers.get(soru['number'], None)
-
+    
         if correct and selected_letter == correct:
             st.success("✅ Doğru cevap!")
             st.session_state.answered = True
             
-            # Otomatik ilerleme
-            if not st.session_state.get('auto_next'):
-                st.session_state.auto_next = True
-                if st.session_state.index < question_count - 1:
-                    st.session_state.index += 1
-                    st.rerun()
+            # Otomatik ilerleme için 0.5 saniye bekle (opsiyonel)
+            time.sleep(0.5)
+            
+            if st.session_state.index < question_count - 1:
+                st.session_state.index += 1
+                st.session_state.answered = False  # Yeni soru için sıfırla
+                st.rerun()
             else:
-                st.session_state.auto_next = False
+                st.balloons()  # Son soruda kutlama efekti
 
     # İlerleme çubuğu
     progress = st.progress((st.session_state.index + 1)/question_count)
